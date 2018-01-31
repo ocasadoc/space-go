@@ -1,7 +1,6 @@
 package main
 
 import (
-	"encoding/json"
 	"log"
 	"net/http"
 )
@@ -25,14 +24,6 @@ func getUpcomingLaunches() {
 
 	defer resp.Body.Close()
 
-	var record UpcomingLaunches
-
-	if err := json.NewDecoder(resp.Body).Decode(&record); err != nil {
-		log.Println(err)
-	}
-
-	println("flightNumber: ", record[0].FlightNumber)
-	println("launchDate: ", record[0].LaunchDateUtc.String())
-	println("launchDate: ", record[0].Rocket.RocketName)
-
+	drawTable(resp.Body, scheduledLaunches)
+	askForLaunch()
 }

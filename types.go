@@ -4,6 +4,12 @@ import (
 	"time"
 )
 
+type TableTypes string
+
+const (
+	scheduledLaunches = "s"
+)
+
 type UpcomingLaunches []struct {
 	FlightNumber    int       `json:"flight_number"`
 	LaunchYear      string    `json:"launch_year"`
