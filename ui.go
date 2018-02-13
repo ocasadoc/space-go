@@ -14,14 +14,19 @@ import (
 var numberOfLaunches int
 var record UpcomingLaunches
 
-func drawTable(body io.ReadCloser, tableType TableTypes) {
+// TableTypes represents the different tables that can be printed in our program
+type TableTypes string
+
+func printRetrievedLaunches(upcomingLaunches UpcomingLaunches) {
+	drawTable(upcomingLaunches, scheduledLaunches)
+}
+
+func drawTable(upcomingLaunches UpcomingLaunches, tableType TableTypes) {
+	record = upcomingLaunches
 	switch tableType {
 	case scheduledLaunches:
 		table := termtables.CreateTable()
 		table.AddHeaders("N", "Company", "LaunchDate", "Rocket name", "Rocket type", "Launch success", "Core reuse", "Launch site")
-		if err := json.NewDecoder(body).Decode(&record); err != nil {
-			fmt.Println("Error decoding json")
-		}
 		color.Set(color.FgYellow)
 		for i := 0; i < len(record); i++ {
 			// TODO: Hardcoded company name
@@ -71,11 +76,11 @@ func getDetailedLaunchInfo(launchNumber int) {
 	if err != nil {
 		fmt.Println("Error converting json to")
 	}
-	decodedJson := json.NewDecoder(strings.NewReader(string(jsonString)))
+	decodedJSON := json.NewDecoder(strings.NewReader(string(jsonString)))
 	jsonPairFlag, spaces, lineBreakDone := 0, 0, false
 
 	for {
-		token, err := decodedJson.Token()
+		token, err := decodedJSON.Token()
 		if err == io.EOF {
 			break
 		}

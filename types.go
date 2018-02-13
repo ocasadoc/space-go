@@ -4,12 +4,11 @@ import (
 	"time"
 )
 
-type TableTypes string
-
 const (
 	scheduledLaunches = "s"
 )
 
+// UpcomingLaunches matches the JSON returned from the SpaceX API
 type UpcomingLaunches []struct {
 	FlightNumber    int       `json:"flight_number"`
 	LaunchYear      string    `json:"launch_year"`
