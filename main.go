@@ -19,10 +19,10 @@ func main() {
 func printWelcomeMessage() {
 	fmt.Println("Welcome to space-go!")
 	fmt.Println("" +
-		"   __\n" +
-		"   \\ \\_____\n" +
-		"***[==_____>\n" +
-		"   /_/\n")
+		"         __\n" +
+		"         \\ \\_____\n" +
+		"*********[==_____>\n" +
+		"         /_/\n")
 }
 
 func printUpcomingLaunches() {
@@ -33,5 +33,5 @@ func printUpcomingLaunches() {
 		return
 	}
 	printRetrievedLaunches(upcomingLaunches)
-	askForLaunch()
+	askForLaunchDetails()
 }

@@ -26,15 +26,14 @@ func drawTable(upcomingLaunches UpcomingLaunches, tableType TableTypes) {
 	switch tableType {
 	case scheduledLaunches:
 		table := termtables.CreateTable()
-		table.AddHeaders("N", "Company", "LaunchDate", "Rocket name", "Rocket type", "Launch success", "Core reuse", "Launch site")
+		table.AddHeaders("N", "Name", "Net", "tbdtime", "tbddate")
 		color.Set(color.FgYellow)
-		for i := 0; i < len(record); i++ {
+		for i := 0; i < len(record.Launches); i++ {
 			// TODO: Hardcoded company name
-			table.AddRow(i, "SpaceX", record[i].LaunchDateUtc, record[i].Rocket.RocketName,
-				record[i].Rocket.RocketType, record[i].LaunchSuccess,
-				record[i].Reuse.Core, record[i].LaunchSite.SiteName)
+			table.AddRow(i, record.Launches[i].Name, record.Launches[i].Net,
+				record.Launches[i].Tbdtime, record.Launches[i].Tbddate)
 		}
-		numberOfLaunches = len(record)
+		numberOfLaunches = len(record.Launches)
 		color.Unset()
 
 		fmt.Println(table.Render())
@@ -44,7 +43,7 @@ func drawTable(upcomingLaunches UpcomingLaunches, tableType TableTypes) {
 	}
 }
 
-func askForLaunch() {
+func askForLaunchDetails() {
 	var response string
 	fmt.Print(" > Type the number of the launch to see more information: ")
 	_, err := fmt.Scanln(&response)
@@ -58,21 +57,21 @@ func askForLaunch() {
 			printUpcomingLaunches()
 		} else {
 			fmt.Printf(" >>> Type the number or 'b' to go back\n")
-			askForLaunch()
+			askForLaunchDetails()
 		}
 	} else {
 		if responseConverted < numberOfLaunches && responseConverted >= 0 {
 			getDetailedLaunchInfo(responseConverted)
-			askForLaunch()
+			askForLaunchDetails()
 		} else {
 			fmt.Printf(" >>> Type the number or 'b' to go back\n")
-			askForLaunch()
+			askForLaunchDetails()
 		}
 	}
 }
 
 func getDetailedLaunchInfo(launchNumber int) {
-	jsonString, err := json.Marshal(record[launchNumber])
+	jsonString, err := json.Marshal(record.Launches[launchNumber])
 	if err != nil {
 		fmt.Println("Error converting json to")
 	}
@@ -107,13 +106,17 @@ func getDetailedLaunchInfo(launchNumber int) {
 				}
 				jsonPairFlag = 0
 			}
-
 		} else {
 			if jsonPairFlag == 0 {
 				for i := 0; i < spaces; i++ {
 					fmt.Printf("\t")
 				}
-				fmt.Printf("%v: ", strings.Title(strings.Replace(token.(string), "_", " ", -1)))
+				if _, ok := token.(string); ok {
+					fmt.Printf("%v: ", strings.Title(token.(string)))
+				} else {
+					fmt.Printf("%v: ", token.(float64))
+				}
+
 				jsonPairFlag++
 			} else {
 				fmt.Printf("%v\n", token)
