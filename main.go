@@ -7,13 +7,8 @@ import (
 )
 
 func main() {
-
 	printWelcomeMessage()
-
-	scheduleArg := os.Args[1]
-	if scheduleArg == "s" {
-		printUpcomingLaunches()
-	}
+	handleProgramArgs()
 }
 
 func printWelcomeMessage() {
@@ -25,13 +20,32 @@ func printWelcomeMessage() {
 		"         /_/\n")
 }
 
+func handleProgramArgs() {
+	if len(os.Args) == 2 {
+		switch option := os.Args[1]; option {
+		case "s":
+			printUpcomingLaunches()
+		case "a":
+			//printSpaceAgencies()
+		default:
+			printHelp()
+		}
+	} else {
+		printHelp()
+	}
+}
+
 func printUpcomingLaunches() {
 	fmt.Println("The next scheduled launches are:")
-	upcomingLaunches, err := getUpcomingLaunches()
+	upcomingLaunches, err := fetchUpcomingLaunches()
 	if err != nil {
 		log.Fatal("Request creation failed: ", err)
 		return
 	}
-	printRetrievedLaunches(upcomingLaunches)
+	printFetchedLaunches(upcomingLaunches)
 	askForLaunchDetails()
+}
+
+func printHelp() {
+	fmt.Printf("Usage:\ns: Upcoming launches\na: Space agencies")
 }

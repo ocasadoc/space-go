@@ -8,7 +8,7 @@ const (
 	scheduledLaunches = "s"
 )
 
-// UpcomingLaunches matches the JSON returned from the SpaceX API
+// UpcomingLaunches matches the JSON returned by the launchlibrari API
 type UpcomingLaunches struct {
 	Launches []struct {
 		ID          int           `json:"id"`
@@ -114,7 +114,25 @@ type UpcomingLaunches struct {
 	Count  int `json:"count"`
 }
 
-// UpcomingLaunchesSpaceX matches the JSON returned from the SpaceX API
+// SpaceAgencies matches the JSON returned by the launchlibrari API
+type SpaceAgencies []struct {
+	Agencies []struct {
+		ID          int           `json:"id"`
+		Name        string        `json:"name"`
+		CountryCode string        `json:"countryCode"`
+		Abbrev      string        `json:"abbrev"`
+		Type        int           `json:"type"`
+		InfoURL     string        `json:"infoURL"`
+		WikiURL     string        `json:"wikiURL"`
+		InfoURLs    []interface{} `json:"infoURLs"`
+		Islsp       int           `json:"islsp"`
+	} `json:"agencies"`
+	Total  int `json:"total"`
+	Count  int `json:"count"`
+	Offset int `json:"offset"`
+}
+
+// UpcomingLaunchesSpaceX matches the JSON returned by the SpaceX API
 type UpcomingLaunchesSpaceX []struct {
 	FlightNumber    int       `json:"flight_number"`
 	LaunchYear      string    `json:"launch_year"`
