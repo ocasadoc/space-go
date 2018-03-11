@@ -14,21 +14,21 @@ var record UpcomingLaunches
 // TableTypes represents the different tables that can be printed in our program
 type TableTypes string
 
-func printFetchedLaunches(upcomingLaunches UpcomingLaunches) {
-	drawTable(upcomingLaunches, scheduledLaunches)
+func printFetchedLaunches(fetchedUpcomingLaunches UpcomingLaunches) {
+	drawTable(fetchedUpcomingLaunches, upcomingLaunches)
 }
 
-func drawTable(upcomingLaunches UpcomingLaunches, tableType TableTypes) {
-	record = upcomingLaunches
+func drawTable(fetchedUpcomingLaunches UpcomingLaunches, tableType TableTypes) {
+	record = fetchedUpcomingLaunches
 	switch tableType {
-	case scheduledLaunches:
-		drawScheduledLaunchesTable()
+	case upcomingLaunches:
+		drawUpcomingLaunchesTable()
 	default:
 		log.Fatal("Error while drawing table")
 	}
 }
 
-func drawScheduledLaunchesTable() {
+func drawUpcomingLaunchesTable() {
 	table := termtables.CreateTable()
 	table.AddHeaders("N", "Name", "Net", "tbdtime", "tbddate")
 	color.Set(color.FgYellow)
@@ -43,27 +43,21 @@ func drawScheduledLaunchesTable() {
 }
 
 func askForLaunchDetails() {
-	var response string
-	fmt.Print(" > Type the number of the launch to see more information: ")
-	_, err := fmt.Scanln(&response)
-	if err != nil {
-		log.Fatal(err)
-	}
-	responseConverted, err := strconv.Atoi(response)
+	fmt.Print(" > Type the number of the launch to see more information (or b to go back): ")
+	responseString := getUserInput()
+	responseInteger, err := strconv.Atoi(responseString)
 
 	if err != nil {
-		if response == "b" {
-			printUpcomingLaunches()
+		if responseString == "b" {
+			printMainMenu()
 		} else {
-			fmt.Printf(" >>> Type the number or 'b' to go back\n")
 			askForLaunchDetails()
 		}
 	} else {
-		if responseConverted < numberOfLaunches && responseConverted >= 0 {
-			getDetailedLaunchInfo(responseConverted)
+		if responseInteger < numberOfLaunches && responseInteger >= 0 {
+			getDetailedLaunchInfo(responseInteger)
 			askForLaunchDetails()
 		} else {
-			fmt.Printf(" >>> Type the number or 'b' to go back\n")
 			askForLaunchDetails()
 		}
 	}

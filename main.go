@@ -22,21 +22,34 @@ func printWelcomeMessage() {
 
 func handleProgramArgs() {
 	if len(os.Args) == 2 {
-		switch option := os.Args[1]; option {
-		case "s":
-			printUpcomingLaunches()
-		case "a":
-			//printSpaceAgencies()
-		default:
-			printHelp()
-		}
+		handleUserSelection(os.Args[1])
 	} else {
-		printHelp()
+		printMainMenu()
+	}
+}
+
+func printMainMenu() {
+	fmt.Printf("Type the option you prefer:"+
+		"\n%s: Upcoming launches"+
+		"\n%s: Space agencies\n",
+		upcomingLaunches, spaceAgencies)
+	fmt.Printf(" > ")
+	handleUserSelection(getUserInput())
+}
+
+func handleUserSelection(option string) {
+	switch option {
+	case upcomingLaunches:
+		printUpcomingLaunches()
+	case "a":
+		//printSpaceAgencies()
+	default:
+		printMainMenu()
 	}
 }
 
 func printUpcomingLaunches() {
-	fmt.Println("The next scheduled launches are:")
+	fmt.Println("The upcoming launches are:")
 	upcomingLaunches, err := fetchUpcomingLaunches()
 	if err != nil {
 		log.Fatal("Request creation failed: ", err)
@@ -44,8 +57,4 @@ func printUpcomingLaunches() {
 	}
 	printFetchedLaunches(upcomingLaunches)
 	askForLaunchDetails()
-}
-
-func printHelp() {
-	fmt.Printf("Usage:\ns: Upcoming launches\na: Space agencies")
 }
