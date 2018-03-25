@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"github.com/apcera/termtables"
 	"github.com/fatih/color"
-	"log"
 	"strconv"
 )
 
@@ -24,7 +23,7 @@ func drawTable(fetchedUpcomingLaunches UpcomingLaunches, tableType TableTypes) {
 	case upcomingLaunches:
 		drawUpcomingLaunchesTable()
 	default:
-		log.Fatal("Error while drawing table")
+		fmt.Println("Error while drawing table")
 	}
 }
 

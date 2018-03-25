@@ -110,21 +110,3 @@ type UpcomingLaunches struct {
 	Offset int `json:"offset"`
 	Count  int `json:"count"`
 }
-
-// SpaceAgencies matches the JSON returned by the launchlibrari API
-type SpaceAgencies []struct {
-	Agencies []struct {
-		ID          int           `json:"id"`
-		Name        string        `json:"name"`
-		CountryCode string        `json:"countryCode"`
-		Abbrev      string        `json:"abbrev"`
-		Type        int           `json:"type"`
-		InfoURL     string        `json:"infoURL"`
-		WikiURL     string        `json:"wikiURL"`
-		InfoURLs    []interface{} `json:"infoURLs"`
-		Islsp       int           `json:"islsp"`
-	} `json:"agencies"`
-	Total  int `json:"total"`
-	Count  int `json:"count"`
-	Offset int `json:"offset"`
-}

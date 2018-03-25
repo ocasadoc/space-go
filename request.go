@@ -2,7 +2,7 @@ package main
 
 import (
 	"encoding/json"
-	"log"
+	"fmt"
 	"net/http"
 )
 
@@ -11,7 +11,7 @@ func fetchUpcomingLaunches() (UpcomingLaunches, error) {
 
 	req, err := http.NewRequest("GET", url, nil)
 	if err != nil {
-		log.Fatal("Request creation failed: ", err)
+		fmt.Println(err)
 		return UpcomingLaunches{}, err
 	}
 
@@ -19,14 +19,14 @@ func fetchUpcomingLaunches() (UpcomingLaunches, error) {
 
 	resp, err := client.Do(req)
 	if err != nil {
-		log.Fatal("HTTP request failed: ", err)
+		fmt.Println(err)
 		return UpcomingLaunches{}, err
 	}
 
 	defer resp.Body.Close()
 
 	if err := json.NewDecoder(resp.Body).Decode(&record); err != nil {
-		log.Fatal("Error decoding json")
+		fmt.Println(err)
 	}
 
 	return record, nil

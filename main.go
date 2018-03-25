@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"log"
 	"os"
 )
 
@@ -30,9 +29,8 @@ func handleProgramArgs() {
 
 func printMainMenu() {
 	fmt.Printf("Type the option you prefer:"+
-		"\n%s: Upcoming launches"+
-		"\n%s: Space agencies\n",
-		upcomingLaunches, spaceAgencies)
+		"\n%s: Upcoming launches\n",
+		upcomingLaunches)
 	fmt.Printf(" > ")
 	handleUserSelection(getUserInput())
 }
@@ -41,8 +39,6 @@ func handleUserSelection(option string) {
 	switch option {
 	case upcomingLaunches:
 		printUpcomingLaunches()
-	case "a":
-		//printSpaceAgencies()
 	default:
 		printMainMenu()
 	}
@@ -52,7 +48,7 @@ func printUpcomingLaunches() {
 	fmt.Println("The upcoming launches are:")
 	upcomingLaunches, err := fetchUpcomingLaunches()
 	if err != nil {
-		log.Fatal("Request creation failed: ", err)
+		fmt.Println(err)
 		return
 	}
 	printFetchedLaunches(upcomingLaunches)

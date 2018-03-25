@@ -1,12 +1,7 @@
-# Space-go
+space-go
+=====
+A small terminal app to check for space-related things. Available options:
 
+* s: upcoming launches
 
-Compilation:
-```bash
-$root-project-path> go clean
-$root-project-path> go build ./space-go/
-$root-project-path> ./space-go.exe
-```
-
-Usage:
-space-go -s (--schedule) -> Shows the scheduled launches for the next weeks
+Retrieves data from https://launchlibrary.net
